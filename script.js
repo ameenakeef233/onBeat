@@ -701,41 +701,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // Fungsi simpan playlist baru
-    saveBtn.addEventListener('click', () => {
-        const name = playlistNameInput.value.trim();
-        const imageFile = playlistImageInput.files[0];
-
-        if (!name) {
-            alert('Please enter a playlist name!');
-            return;
-        }
-
-        if (imageFile) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                playlists.push({
-                    name: name,
-                    image: e.target.result
-                });
-                displayPlaylist();
-                showNotification('Playlist saved successfully! ✅'); // <-- notification
-            };
-            reader.readAsDataURL(imageFile); // convert gambar ke base64
-        } else {
-            playlists.push({
-                name: name,
-                image: null
-            });
-            displayPlaylist();
-            showNotification('Playlist saved successfully! ✅'); // <-- notification
-        }
-
-        // Reset input dan tutup popup
-        playlistNameInput.value = '';
-        playlistImageInput.value = '';
-        popup.style.display = 'none';
-    });
+  
 
 
     const searchInput = document.getElementById('userName');
