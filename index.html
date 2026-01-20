@@ -282,192 +282,189 @@
                             style="width:60px; height:60px; border-radius:10px; cursor:pointer; border: 2px solid transparent;">
                         <img src="assets/albumart3.jpg" class="default-cover"
                             style="width:60px; height:60px; border-radius:10px; cursor:pointer; border: 2px solid transparent;">
-                    </div>
-
-                    <div class="popup-buttons">
-                        <button id="savePlaylistBtn" type="button">Save</button>
-                        <button id="cancelPlaylistBtn">Cancel</button>
-                    </div>
-                </div>
-            </div>
-
-            <script>// Pilih default cover
-                const defaultCovers = document.querySelectorAll('.default-cover');
-                let selectedDefaultCover = null;
-
-                defaultCovers.forEach(img => {
-                    img.addEventListener('click', () => {
-                        // HIGHLIGHT yg dipilih
-                        defaultCovers.forEach(i => i.style.border = '2px solid transparent');
-                        img.style.border = '2px solid var(--accent-color)';
-                        selectedDefaultCover = img.src;
-
-                        // kosongkan file input kalau user pilih default
-                        playlistImageInput.value = '';
-                    });
-                });
-
-          
-            </script>
-            <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                    const addBtn = document.getElementById('addPlaylistBtn');
-                    const popup = document.getElementById('playlistPopup');
-                    const cancelBtn = document.getElementById('cancelPlaylistBtn');
-
-                    addBtn.addEventListener('click', () => {
-                        popup.style.display = 'flex';
-                    });
-
-                    cancelBtn.addEventListener('click', () => {
-                        popup.style.display = 'none';
-                    });
-
-                    popup.addEventListener('click', (e) => {
-                        if (e.target === popup) popup.style.display = 'none';
-                    });
-                });
-            </script>
-
-            <div id="playlistListView">
-                <table id="playlistTable">
-                    <thead>
-                        <tr>
-                            <th style="color: var(--card-bg);">No</th>
-                            <th style="color: var(--card-bg);">Cover</th>
-                            <th style="color: var(--card-bg);">Title</th>
-                            <th style="color: var(--card-bg);">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="playlistBody">
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Playlist Detail -->
-            <div id="playlistDetailView" style="display:none;">
-
-                <div class="playlist-header">
-                    <button class="btn-back" onclick="backToList()">
-                        <i class="fas fa-arrow-left"></i> Back
-                    </button>
-
-                    <button id="addSongBtn" class="btn-add">
-                        <i class="fas fa-plus"></i> Add Song
-                    </button>
-                </div>
-
-                <img id="detailImage" src="" alt="Playlist Cover" class="playlist-cover">
-                <h2 id="detailTitle"></h2>
-
-                <table id="songTable">
-                    <thead>
-                        <tr>
-                            <th style="color: var(--card-bg);">#</th>
-                            <th style="color: var(--card-bg);">Song Title</th>
-                            <th style="color: var(--card-bg);">Artist</th>
-                            <th style="color: var(--card-bg);">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="songBody"></tbody>
-                </table>
-            </div>
-
-
-            <!-- Popup pilih lagu sedia ada -->
-            <div id="songPopup" class="popup-overlay" style="display:none;">
-                <div class="popup-content">
-                    <h3>Select Song to Add</h3>
-                    <div id="allSongsList">
-                        <!-- Senarai lagu akan generate secara JS -->
-                    </div>
-                    <div class="popup-buttons">
-                        <button id="saveSongBtn">Save</button>
-                        <button id="cancelSongBtn">Cancel</button>
+                        <div class="popup-buttons">
+                            <button id="savePlaylistBtn" type="button">Save</button>
+                            <button id="cancelPlaylistBtn">Cancel</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="floating-controls">
-                <button onclick="prevSong()" title="Previous">
-                    <i class="fas fa-backward"></i>
-                </button>
+                <script>// Pilih default cover
+                    const defaultCovers = document.querySelectorAll('.default-cover');
+                    let selectedDefaultCover = null;
 
-                <button onclick="togglePlay()" id="floatingPlayBtn" title="Play / Pause">
-                    <i class="fas fa-play"></i>
-                </button>
+                    defaultCovers.forEach(img => {
+                        img.addEventListener('click', () => {
+                            // HIGHLIGHT yg dipilih
+                            defaultCovers.forEach(i => i.style.border = '2px solid transparent');
+                            img.style.border = '2px solid var(--accent-color)';
+                            selectedDefaultCover = img.src;
 
-                <button onclick="nextSong()" title="Next">
-                    <i class="fas fa-forward"></i>
-                </button>
-
-                <!-- <button id="repeatBtn" onclick="toggleRepeat()" class="control-btn">
-                    <i class="fas fa-redo"></i>
-                </button> -->
-            </div>
-
-            <script>
-                const songPopup = document.getElementById('songPopup');
-                const addSongBtn = document.getElementById('addSongBtn');
-                const cancelSongBtn = document.getElementById('cancelSongBtn');
-                const saveSongBtn = document.getElementById('saveSongBtn');
-                const allSongsList = document.getElementById('allSongsList');
-
-                // buka popup
-                addSongBtn.addEventListener('click', () => {
-                    songPopup.style.display = 'flex';
-                    renderAllSongs();
-                });
-
-                // tutup popup
-                cancelSongBtn.addEventListener('click', () => {
-                    songPopup.style.display = 'none';
-                });
-
-                // render senarai lagu sedia ada dengan checkbox
-                // Bila user klik "+ Add Song", render senarai lagu dari tracks
-                function renderAllSongs() {
-                    allSongsList.innerHTML = ''; // kosongkan dulu
-                    tracks.forEach((track, index) => {
-                        const div = document.createElement('div');
-                        div.innerHTML = `
-            <input type="checkbox" id="song${index}" value="${index}">
-            <label for="song${index}">${track.title} - ${track.artist}</label>
-        `;
-                        allSongsList.appendChild(div);
-                    });
-                }
-
-
-                // simpan lagu dipilih ke playlist
-                saveSongBtn.addEventListener('click', () => {
-                    const checkboxes = allSongsList.querySelectorAll('input[type="checkbox"]:checked');
-                    checkboxes.forEach(cb => {
-                        const track = tracks[cb.value];
-                        if (!playlists[currentPlaylistIndex].songs) playlists[currentPlaylistIndex].songs = [];
-                        playlists[currentPlaylistIndex].songs.push({
-                            title: track.title,
-                            artist: track.artist,
-                            src: track.src,
-                            cover: track.cover,
-                            lyrics: track.lyrics
+                            // kosongkan file input kalau user pilih default
+                            playlistImageInput.value = '';
                         });
                     });
 
-                    displaySongs();
-                    saveToLocalStorage();
-                    songPopup.style.display = 'none';
-                });
+                </script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const addBtn = document.getElementById('addPlaylistBtn');
+                        const popup = document.getElementById('playlistPopup');
+                        const cancelBtn = document.getElementById('cancelPlaylistBtn');
 
-            </script>
+                        addBtn.addEventListener('click', () => {
+                            popup.style.display = 'flex';
+                        });
+
+                        cancelBtn.addEventListener('click', () => {
+                            popup.style.display = 'none';
+                        });
+
+                        popup.addEventListener('click', (e) => {
+                            if (e.target === popup) popup.style.display = 'none';
+                        });
+                    });
+                </script>
+
+                <div id="playlistListView">
+                    <table id="playlistTable">
+                        <thead>
+                            <tr>
+                                <th style="color: var(--card-bg);">No</th>
+                                <th style="color: var(--card-bg);">Cover</th>
+                                <th style="color: var(--card-bg);">Title</th>
+                                <th style="color: var(--card-bg);">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="playlistBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Playlist Detail -->
+                <div id="playlistDetailView" style="display:none;">
+
+                    <div class="playlist-header">
+                        <button class="btn-back" onclick="backToList()">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+
+                        <button id="addSongBtn" class="btn-add">
+                            <i class="fas fa-plus"></i> Add Song
+                        </button>
+                    </div>
+
+                    <img id="detailImage" src="" alt="Playlist Cover" class="playlist-cover">
+                    <h2 id="detailTitle"></h2>
+
+                    <table id="songTable">
+                        <thead>
+                            <tr>
+                                <th style="color: var(--card-bg);">#</th>
+                                <th style="color: var(--card-bg);">Song Title</th>
+                                <th style="color: var(--card-bg);">Artist</th>
+                                <th style="color: var(--card-bg);">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="songBody"></tbody>
+                    </table>
+                </div>
+
+
+                <!-- Popup pilih lagu sedia ada -->
+                <div id="songPopup" class="popup-overlay" style="display:none;">
+                    <div class="popup-content">
+                        <h3>Select Song to Add</h3>
+                        <div id="allSongsList">
+                            <!-- Senarai lagu akan generate secara JS -->
+                        </div>
+                        <div class="popup-buttons">
+                            <button id="saveSongBtn">Save</button>
+                            <button id="cancelSongBtn">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="floating-controls">
+                    <button onclick="prevSong()" title="Previous">
+                        <i class="fas fa-backward"></i>
+                    </button>
+
+                    <button onclick="togglePlay()" id="floatingPlayBtn" title="Play / Pause">
+                        <i class="fas fa-play"></i>
+                    </button>
+
+                    <button onclick="nextSong()" title="Next">
+                        <i class="fas fa-forward"></i>
+                    </button>
+
+                    <!-- <button id="repeatBtn" onclick="toggleRepeat()" class="control-btn">
+                    <i class="fas fa-redo"></i>
+                </button> -->
+                </div>
+
+                <script>
+                    const songPopup = document.getElementById('songPopup');
+                    const addSongBtn = document.getElementById('addSongBtn');
+                    const cancelSongBtn = document.getElementById('cancelSongBtn');
+                    const saveSongBtn = document.getElementById('saveSongBtn');
+                    const allSongsList = document.getElementById('allSongsList');
+
+                    // buka popup
+                    addSongBtn.addEventListener('click', () => {
+                        songPopup.style.display = 'flex';
+                        renderAllSongs();
+                    });
+
+                    // tutup popup
+                    cancelSongBtn.addEventListener('click', () => {
+                        songPopup.style.display = 'none';
+                    });
+
+                    // render senarai lagu sedia ada dengan checkbox
+                    // Bila user klik "+ Add Song", render senarai lagu dari tracks
+                    function renderAllSongs() {
+                        allSongsList.innerHTML = ''; // kosongkan dulu
+                        tracks.forEach((track, index) => {
+                            const div = document.createElement('div');
+                            div.innerHTML = `
+            <input type="checkbox" id="song${index}" value="${index}">
+            <label for="song${index}">${track.title} - ${track.artist}</label>
+        `;
+                            allSongsList.appendChild(div);
+                        });
+                    }
+
+
+                    // simpan lagu dipilih ke playlist
+                    saveSongBtn.addEventListener('click', () => {
+                        const checkboxes = allSongsList.querySelectorAll('input[type="checkbox"]:checked');
+                        checkboxes.forEach(cb => {
+                            const track = tracks[cb.value];
+                            if (!playlists[currentPlaylistIndex].songs) playlists[currentPlaylistIndex].songs = [];
+                            playlists[currentPlaylistIndex].songs.push({
+                                title: track.title,
+                                artist: track.artist,
+                                src: track.src,
+                                cover: track.cover,
+                                lyrics: track.lyrics
+                            });
+                        });
+
+                        displaySongs();
+                        saveToLocalStorage();
+                        songPopup.style.display = 'none';
+                    });
+
+                </script>
 
 
 
-            <section class="export-area">
-                <button onclick="printPlaylist()" class="btn-print">
-                    <i class="fas fa-print"></i> Print Playlist Report
-                </button>
-            </section>
+                <section class="export-area">
+                    <button onclick="printPlaylist()" class="btn-print">
+                        <i class="fas fa-print"></i> Print Playlist Report
+                    </button>
+                </section>
         </main>
 
         <script>
@@ -630,48 +627,48 @@
 
 
             // Fungsi simpan playlist baru
-       saveBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopImmediatePropagation();
+            saveBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopImmediatePropagation();
 
-    const name = playlistNameInput.value.trim();
-    const imageFile = playlistImageInput.files[0];
+                const name = playlistNameInput.value.trim();
+                const imageFile = playlistImageInput.files[0];
 
-    if (!name) {
-        alert('Please enter a playlist name!');
-        return;
-    }
+                if (!name) {
+                    alert('Please enter a playlist name!');
+                    return;
+                }
 
-    function finalizeSave(imageData) {
-        playlists.push({
-            name: name,
-            image: imageData
-        });
-        saveToLocalStorage();
-        displayPlaylist();
-        showNotification('Playlist saved successfully! ✅');
+                function finalizeSave(imageData) {
+                    playlists.push({
+                        name: name,
+                        image: imageData
+                    });
+                    saveToLocalStorage();
+                    displayPlaylist();
+                    showNotification('Playlist saved successfully! ✅');
 
-        playlistNameInput.value = '';
-        playlistImageInput.value = '';
-        selectedDefaultCover = null;
-        document.querySelectorAll('.default-cover').forEach(i => i.style.border = '2px solid transparent');
-        popup.style.display = 'none';
-    }
+                    playlistNameInput.value = '';
+                    playlistImageInput.value = '';
+                    selectedDefaultCover = null;
+                    document.querySelectorAll('.default-cover').forEach(i => i.style.border = '2px solid transparent');
+                    popup.style.display = 'none';
+                }
 
-    if (imageFile) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            finalizeSave(e.target.result);
-        };
-        reader.readAsDataURL(imageFile);
-    } else if (selectedDefaultCover) {
-        finalizeSave(selectedDefaultCover);
-    } else {
-        // fallback: random default jika user tak pilih
-        const defaultCovers = ['assets/default1.png','assets/default2.png','assets/default3.png'];
-        finalizeSave(defaultCovers[Math.floor(Math.random()*defaultCovers.length)]);
-    }
-});
+                if (imageFile) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        finalizeSave(e.target.result);
+                    };
+                    reader.readAsDataURL(imageFile);
+                } else if (selectedDefaultCover) {
+                    finalizeSave(selectedDefaultCover);
+                } else {
+                    // fallback: random default jika user tak pilih
+                    const defaultCovers = ['assets/default1.png', 'assets/default2.png', 'assets/default3.png'];
+                    finalizeSave(defaultCovers[Math.floor(Math.random() * defaultCovers.length)]);
+                }
+            });
 
 
 
