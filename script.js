@@ -577,15 +577,6 @@ audio.addEventListener("timeupdate", () => {
 
 
 
-/* =========================
-   CONTROLS
-========================= */
-// function nextSong() {
-//     currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
-//     loadTrack(currentTrackIndex);
-//     audio.play();
-//     playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-// }
 
 function nextSong() {
     currentTrackIndex++;
