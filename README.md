@@ -5,6 +5,10 @@ A Web-Based Music Experience
 # PRESENTATION SLIDE
 https://www.canva.com/design/DAG_AM3-nuc/HJDc_yylB1FK3LDLH4i6_A/edit?utm_content=DAG_AM3-nuc&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
+
+# GITHUB PAGE LINKS
+https://ameenakeef233.github.io/onBeat/
+
 ## Overview
 
 **onBeat** is a web-based music player prototype designed to provide an interactive and visually engaging music listening experience.  
