@@ -1632,7 +1632,7 @@ tr:hover {
     position: fixed;
     /* 👉 fixed supaya tak mempengaruhi body height */
     bottom: -50px;
-    color: hsl(var(--hue), 100%, 60%);
+    color: rgb(0, 238, 255);
     font-size: 16px;
     animation-name: floatUp;
     animation-timing-function: linear;
