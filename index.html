@@ -621,16 +621,27 @@
 
 
             <!-- User Inputs -->
-            <input type="text" id="userName" placeholder="Your Name">
-            <input type="date" id="userDOB">
+            <div class="form-group" style="color: #000;">
+                <label for="userName">Name</label>
+                <input type="text" id="userName" placeholder="Enter your name">
+            </div>
 
-            <select id="userGender">
-                <option value="">Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
+            <div class="form-group" style="color: #000;">
+                <label for="userDOB">Date of Birth</label>
+                <input type="date" id="userDOB" >
+            </div>
 
-            <button onclick="saveUserDetails()">Go</button>
+            <div class="form-group" style="color: #000;">
+                <label for="userGender">Gender</label>
+                <select id="userGender">
+                    <option value="">Select gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+
+
+            <button onclick="saveUserDetails()" style="font-weight: bold;">GO</button>
         </div>
     </div>
 
